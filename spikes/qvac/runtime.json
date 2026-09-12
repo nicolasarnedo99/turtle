@@ -1,0 +1,23 @@
+{
+  "processes": [
+    {
+      "Name": "node",
+      "Pid": "963332",
+      "PPid": "961726",
+      "VmSize": "1149920 kB",
+      "VmHWM": "126764 kB",
+      "VmRSS": "100200 kB",
+      "Threads": "11"
+    },
+    {
+      "Name": "bare",
+      "Pid": "963362",
+      "PPid": "963332",
+      "VmSize": "23179504 kB",
+      "VmHWM": "3908568 kB",
+      "VmRSS": "3875900 kB",
+      "Threads": "14"
+    }
+  ],
+  "note": "Snapshot during the first evaluation; VmHWM is per process, not summed simultaneous peak."
+}

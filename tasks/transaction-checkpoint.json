@@ -1,0 +1,67 @@
+{
+  "observedAt": "2026-09-12T06:27:02.973Z",
+  "address": "0xE0025f5afd3FD375e30E8C3679924a499eE926F4",
+  "balanceNativeUnits": "10000000000000000000",
+  "latestNonce": 0,
+  "pendingNonce": 0,
+  "provisionPending": null,
+  "fixtures": [
+    {
+      "file": "excessive_value.json",
+      "status": "policy_violation",
+      "nonce": 1000000000,
+      "neverBroadcast": true,
+      "receipt": "not_signed"
+    },
+    {
+      "file": "valid_buy-rejected-decimal-fees.json",
+      "status": "pending",
+      "nonce": 1000000000,
+      "neverBroadcast": true,
+      "receipt": "not_signed"
+    },
+    {
+      "file": "valid_buy.json",
+      "status": "signed",
+      "hash": "0xc53f9385cc98bf37c97d6ecb0791c36cda65b5bb5d53efe4be60182b61450da5",
+      "nonce": 1000000000,
+      "neverBroadcast": true,
+      "receipt": "not_found"
+    },
+    {
+      "file": "wrong_chain.json",
+      "status": "policy_violation",
+      "nonce": 1000000000,
+      "neverBroadcast": true,
+      "receipt": "not_signed"
+    },
+    {
+      "file": "wrong_destination.json",
+      "status": "policy_violation",
+      "nonce": 1000000000,
+      "neverBroadcast": true,
+      "receipt": "not_signed"
+    },
+    {
+      "file": "wrong_method.json",
+      "status": "policy_violation",
+      "nonce": 1000000000,
+      "neverBroadcast": true,
+      "receipt": "not_signed"
+    },
+    {
+      "file": "wrong_pair.json",
+      "status": "policy_violation",
+      "nonce": 1000000000,
+      "neverBroadcast": true,
+      "receipt": "not_signed"
+    },
+    {
+      "file": "zero_minimum.json",
+      "status": "policy_violation",
+      "nonce": 1000000000,
+      "neverBroadcast": true,
+      "receipt": "not_signed"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "observedAt": "2026-09-11T18:16:14.412Z",
+  "results": [
+    {
+      "name": "valid_buy",
+      "status": "signed_and_verified"
+    },
+    {
+      "name": "wrong_chain",
+      "status": "policy_violation"
+    },
+    {
+      "name": "wrong_destination",
+      "status": "policy_violation"
+    },
+    {
+      "name": "wrong_method",
+      "status": "policy_violation"
+    },
+    {
+      "name": "wrong_pair",
+      "status": "policy_violation"
+    },
+    {
+      "name": "excessive_value",
+      "status": "policy_violation"
+    },
+    {
+      "name": "zero_minimum",
+      "status": "policy_violation"
+    }
+  ],
+  "noBroadcast": true
+}

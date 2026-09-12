@@ -1,0 +1,22 @@
+{
+  "cacheDirectory": "/home/nico/turtle/data/qvac-cache",
+  "loggerLevel": "warn",
+  "serve": {
+    "models": {
+      "turtle-nemotron": {
+        "src": "/home/nico/turtle/data/models/NVIDIA-Nemotron3-Nano-4B-Q4_K_M.gguf",
+        "type": "llm",
+        "preload": true,
+        "config": {
+          "device": "cpu",
+          "gpu_layers": 0,
+          "ctx_size": 2048,
+          "parallel": 1,
+          "temp": 0,
+          "predict": 128,
+          "reasoning_budget": 0
+        }
+      }
+    }
+  }
+}

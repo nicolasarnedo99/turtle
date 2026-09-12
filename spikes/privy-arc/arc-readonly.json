@@ -1,0 +1,233 @@
+{
+  "observedAt": "2026-09-11T17:34:41.788Z",
+  "chain": 5042002,
+  "blockNumber": "61600808",
+  "vault": "0xb8dc1f767167b567227326D8849175a188A0e78C",
+  "oracle": "0x76398cfa526D4a76EaEC0c4709d6B7C966E5ABdB",
+  "vaultPaused": false,
+  "oraclePaused": false,
+  "linkedOracle": "0x76398cfa526D4a76EaEC0c4709d6B7C966E5ABdB",
+  "linkedVault": "0xb8dc1f767167b567227326D8849175a188A0e78C",
+  "feeBps": "30",
+  "vaultBalance": [
+    "137392372323880561250839",
+    "135827858839724882124281",
+    "2720395196215897228337",
+    "35271",
+    "14683",
+    "2720395196215897228337",
+    "906798398738632415767540"
+  ],
+  "pairs": [
+    {
+      "pair": {
+        "pairId": "1",
+        "name": "Apple Inc.",
+        "symbol": "AAPL",
+        "category": 0,
+        "priceSource": "https://query1.finance.yahoo.com/v8/finance/chart/AAPL",
+        "description": "Apple Inc. stock price in USD",
+        "synth": "0xB7d0e4FBB6C31997aeBc8070f9BF326Bb0ef859E",
+        "price": "334150000000000000000",
+        "lastUpdated": "1789148045",
+        "maxStaleness": "120",
+        "maxDeviation": "2500",
+        "active": true,
+        "frozen": false,
+        "createdAt": "1775046978"
+      },
+      "priceStatus": [
+        "334150000000000000000",
+        "1789148045",
+        "36",
+        false
+      ],
+      "decimals": 18,
+      "codeHash": "0x138f82b9105e26754d2652ec31f4c7d36902b15d24aa8bb5a7e26bfd66617731",
+      "buyPrincipal": "100000000000000000",
+      "quote": [
+        "298368995959898",
+        "300000000000000",
+        "99700000000000000",
+        "334150000000000000000",
+        false
+      ],
+      "redeemHalfQuote": [
+        "49700449999999959",
+        "149549999999999",
+        "49849999999999958",
+        "334150000000000000000",
+        false,
+        true
+      ]
+    },
+    {
+      "pair": {
+        "pairId": "2",
+        "name": "Alphabet Inc.",
+        "symbol": "GOOGL",
+        "category": 0,
+        "priceSource": "https://query1.finance.yahoo.com/v8/finance/chart/GOOGL",
+        "description": "Alphabet Inc. stock price in USD",
+        "synth": "0x22Dd732d8bf020d1Cd6D2ec3342ce43f15a982b1",
+        "price": "340855000000000000000",
+        "lastUpdated": "1789148045",
+        "maxStaleness": "120",
+        "maxDeviation": "2500",
+        "active": true,
+        "frozen": false,
+        "createdAt": "1775046985"
+      },
+      "priceStatus": [
+        "340855000000000000000",
+        "1789148045",
+        "36",
+        false
+      ],
+      "decimals": 18,
+      "codeHash": "0x138f82b9105e26754d2652ec31f4c7d36902b15d24aa8bb5a7e26bfd66617731",
+      "buyPrincipal": "100000000000000000",
+      "quote": [
+        "292499743292602",
+        "300000000000000",
+        "99700000000000000",
+        "340855000000000000000",
+        false
+      ],
+      "redeemHalfQuote": [
+        "49700449999999928",
+        "149549999999999",
+        "49849999999999927",
+        "340855000000000000000",
+        false,
+        true
+      ]
+    },
+    {
+      "pair": {
+        "pairId": "6",
+        "name": "Microsoft Corp.",
+        "symbol": "MSFT",
+        "category": 0,
+        "priceSource": "https://query1.finance.yahoo.com/v8/finance/chart/MSFT",
+        "description": "Microsoft Corporation stock price in USD",
+        "synth": "0x4fb69F9521b84be62da5dEC21E5e93D8e3fE6204",
+        "price": "495470000000000000000",
+        "lastUpdated": "1789148045",
+        "maxStaleness": "120",
+        "maxDeviation": "2500",
+        "active": true,
+        "frozen": false,
+        "createdAt": "1778184221"
+      },
+      "priceStatus": [
+        "495470000000000000000",
+        "1789148045",
+        "36",
+        false
+      ],
+      "decimals": 18,
+      "codeHash": "0x138f82b9105e26754d2652ec31f4c7d36902b15d24aa8bb5a7e26bfd66617731",
+      "buyPrincipal": "100000000000000000",
+      "quote": [
+        "201223081114901",
+        "300000000000000",
+        "99700000000000000",
+        "495470000000000000000",
+        false
+      ],
+      "redeemHalfQuote": [
+        "49700449999999752",
+        "149549999999999",
+        "49849999999999751",
+        "495470000000000000000",
+        false,
+        true
+      ]
+    },
+    {
+      "pair": {
+        "pairId": "7",
+        "name": "Tesla Inc.",
+        "symbol": "TSLA",
+        "category": 0,
+        "priceSource": "https://query1.finance.yahoo.com/v8/finance/chart/TSLA",
+        "description": "Tesla Inc. stock price in USD",
+        "synth": "0xf1f19cE22Fb971a61B12F9494D100E72F9C3956E",
+        "price": "366370000000000000000",
+        "lastUpdated": "1789148045",
+        "maxStaleness": "120",
+        "maxDeviation": "5000",
+        "active": true,
+        "frozen": false,
+        "createdAt": "1778184235"
+      },
+      "priceStatus": [
+        "366370000000000000000",
+        "1789148045",
+        "36",
+        false
+      ],
+      "decimals": 18,
+      "codeHash": "0x138f82b9105e26754d2652ec31f4c7d36902b15d24aa8bb5a7e26bfd66617731",
+      "buyPrincipal": "100000000000000000",
+      "quote": [
+        "272129268226110",
+        "300000000000000",
+        "99700000000000000",
+        "366370000000000000000",
+        false
+      ],
+      "redeemHalfQuote": [
+        "49700449999999961",
+        "149549999999999",
+        "49849999999999960",
+        "366370000000000000000",
+        false,
+        true
+      ]
+    },
+    {
+      "pair": {
+        "pairId": "9",
+        "name": "NVIDIA Corp.",
+        "symbol": "NVDA",
+        "category": 0,
+        "priceSource": "https://query1.finance.yahoo.com/v8/finance/chart/NVDA",
+        "description": "NVIDIA Corporation stock price in USD",
+        "synth": "0x8f9A9ac6F16f4677beB730293C8E75694a458084",
+        "price": "219235000000000000000",
+        "lastUpdated": "1789148045",
+        "maxStaleness": "120",
+        "maxDeviation": "5000",
+        "active": true,
+        "frozen": false,
+        "createdAt": "1778184248"
+      },
+      "priceStatus": [
+        "219235000000000000000",
+        "1789148045",
+        "36",
+        false
+      ],
+      "decimals": 18,
+      "codeHash": "0x138f82b9105e26754d2652ec31f4c7d36902b15d24aa8bb5a7e26bfd66617731",
+      "buyPrincipal": "100000000000000000",
+      "quote": [
+        "454763153693525",
+        "300000000000000",
+        "99700000000000000",
+        "219235000000000000000",
+        false
+      ],
+      "redeemHalfQuote": [
+        "49700449999999868",
+        "149549999999999",
+        "49849999999999867",
+        "219235000000000000000",
+        false,
+        true
+      ]
+    }
+  ]
+}

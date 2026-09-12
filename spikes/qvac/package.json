@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@qvac/cli": "0.13.0"
+  }
+}
