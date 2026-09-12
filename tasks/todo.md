@@ -1,5 +1,186 @@
 # Turtle preparation
 
+## Funding and Apple Wallet notification flows — 12 September 2026
+
+Nico's latest scope supersedes classification-first ordering. Prioritize
+funding the existing app wallet and Apple Wallet Shortcut intake, confirmed
+in the follow-up answer. The classifier remains failed and automatic
+purchases remain disabled. Preserve the wallet and transaction history.
+
+Scope budget: 90 minutes for a receive-funds panel, scoped authenticated
+Shortcut setup and durable notification intake, followed by focused API,
+browser and build verification. Funding means manual test-USDC receipt and
+an honest balance refresh, not an automatic transfer or real-money onramp.
+Shortcut receipt means an unverified card-tap notification, not bank
+settlement or a token purchase. Actual iPhone field availability must be
+verified on Nico's device. No QVAC runs, signing, broadcasting or wallet
+provisioning are needed. No commits or pushes.
+
+- [x] Read task records and current frontend/backend code
+- [x] Confirm Apple Wallet Shortcut intake as the notification priority
+- [x] Check service listeners before starting anything
+- [x] Add funding instructions for the existing Arc wallet
+- [x] Add scoped Shortcut setup and durable idempotent notification intake
+- [x] Verify both flows and preserve execution safeguards
+- [x] Record the runnable checkpoint and required phone verification
+
+Preflight found no listeners on 4173, 5173 or 11435. Existing working-tree
+research and task edits are preserved. Root owns integration and Shortcut
+UI; separate agents own funding UI and backend intake with isolated files.
+
+Completed checkpoint: 110 backend tests and 11 browser tests passed, along
+with TypeScript and the production build. Desktop and 390px mobile views
+were inspected; overflow checks passed. The build retains the existing
+dependency chunk-size warning. Browser tests use isolated Privy/API mocks;
+actual iPhone notification fields and delivery still require device testing.
+
+Funding shows the existing address, Arc testnet/USDC instructions, copy
+fallback, faucet/explorer links and before/after observed balances. A failed
+refresh cannot claim receipt. A fresh read at 08:02:42 UTC found exactly
+9.993153889999999688 test USDC and zero holdings for all five synths; see
+tasks/funding-checkpoint.json. No funding transfer was initiated.
+
+Apple Wallet setup creates an intake-only token shown once, stored hashed
+and bound to the allowed login. Rotation, revocation, restart, strict fields,
+rate/size limits and global event-ID conflicts are tested. Notifications
+persist in an additive table and appear with their source; no event reaches
+the execution engine. The wallet provision file, execution database and
+all old simulation rows matched their pre-start preservation hashes.
+A consistent app database backup is retained privately in data/checkpoints.
+
+One production listener now runs at http://127.0.0.1:4173, PID 1005929,
+through the existing SSH-forward workflow. No QVAC listener or second app
+listener was started. Live protected routes, including Shortcut intake,
+reject unauthenticated requests with 401. No production Shortcut credential
+or synthetic notification was created during verification. No commits or
+pushes. Next manual action: sign in on iPhone, create the Shortcut token,
+follow tasks/apple-wallet-setup.md and verify actual input fields and one
+notification plus an identical retry. Automatic purchases remain disabled.
+
+## Direct-relationship investigation — 12 September 2026
+
+Nico authorized one further 30-minute investigation with at most two
+candidates. Cache stays disabled; QVAC and the pinned NVIDIA model remain.
+Clarify direct brand/service ownership, including YouTube Premium to
+Alphabet and Tesla service to Tesla. Preserve the original twenty tests
+and add independently prepared held-out paraphrases and unrelated repair
+and video merchants. Freeze both prompts before reading held-out results.
+Require every original positive and zero false eligible decisions; retain
+schema, completion, timeout and latency checks. No transactions, automatic
+execution or application integration is part of this investigation.
+
+- [x] Read the saved diagnosis and freeze two candidate prompts
+- [x] Freeze held-out merchant cases independently
+- [x] Evaluate at most two candidates within 30 minutes
+- [x] Record results and stop all investigation workers
+
+Both prompts are fixed in relationship-candidates.json before model runs.
+A separate agent prepared sixteen held-out cases, eight direct matches and
+eight negatives, without seeing those prompts. Neither prompt will be tuned
+from held-out results. The evaluator records file hashes, raw output and
+original/held-out groups, refuses repeated candidate output paths, and has
+an absolute request-start cutoff of 08:03:44 UTC inside the 30-minute scope.
+
+Candidate relationships-a completed 36 cases: all ten original positives
+and all eight held-out positives correct, but six false eligible decisions.
+Two are original injections; held-out failures include independent Tesla
+and NVIDIA repairers, competing owners and an injected video merchant.
+Warm p95 is 9.4575 seconds. Gate failed. Run only the already frozen second
+candidate; do not adapt it to the held-out failures or start a third.
+
+Final checkpoint: both frozen candidates completed; neither passes the
+zero-false-buy gate. Candidate A scores 30/36 with six false eligible
+decisions; candidate B scores 18/36 with eighteen. Both recover every
+original positive and every held-out positive, including the direct
+YouTube and Tesla service relationships. All 72 outputs are schema-valid,
+complete, within the request deadline, and equal to parsing their raw text.
+Warm p95 is 9.4575 seconds for A and 9.6652 for B. Held-out tests expose
+independent repair/video merchants being mistaken for product owners.
+
+Original tests and schema are unchanged. Frozen prompt and held-out hashes
+match both reports. Both SDK workers were unloaded and closed; neither
+4173 nor 11435 has a listener, and no Bare process remains. Stopped inside
+the 30-minute budget after exactly two candidates. No application changes,
+transactions or automatic execution. See tasks/qvac-relationships.md.
+
+## Authorized classifier diagnosis and offline integration — 12 September 2026
+
+Nico authorized QVAC/NVIDIA diagnosis, followed only after classification
+passes by integration with the existing durable execution engine. This
+supersedes preparation-only scope for that work on the existing Arc setup.
+Live automatic purchases require passing offline end-to-end tests and a
+separate approval. No live signing, broadcasting, wallet replacement,
+unrelated UI work, commits, or pushes are authorized here.
+
+Budget: 30 minutes for diagnosis and at most two failed experimental
+repetitions; then up to 90 minutes for integration and offline verification
+if classification passes. Compare raw responses, schema, parsing and fixed
+expectations before changing the demonstrated cause. Preserve all 20 cases.
+
+- [x] Read rules, implementation plan, task history, spike code and results
+- [x] Identify the cache-path failure and evaluate two bounded candidates
+- [ ] Pass the complete QVAC/NVIDIA classification gate
+- [ ] Integrate passing classification with durable execution offline
+- [ ] Test supported, unsupported, duplicate, timeout, cap and reserve paths
+- [ ] Record verified evidence and the next manual action
+
+HEAD is 8095472. Existing documentation edits were preserved. Neither 4173
+nor 11435 has a listener at preflight. Historical login and round-trip
+evidence remain valid checkpoints, not authorization for more transactions.
+
+Controlled cached/uncached comparison proves the cache path changes the
+result with identical prompt and schema: Mercadona and the override injection
+abstain only when caching is disabled. First full uncached run passes 18/20,
+with all ten positives correct and warm p95 6.9531 seconds. Remaining failures
+are competing company names and a forged SYSTEM label with a buy command.
+Raw and parsed output agree. One final bounded candidate explicitly puts
+those rejection rules first; expectations and schema stay unchanged. If it
+fails, stop without integration. Evidence: tasks/qvac-diagnosis.md and the
+new spike reports. No funded execution worker has been started.
+
+Stopped after the second failed candidate. The explicit rejection prompt
+passes all ten negatives but incorrectly skips GOOGLE *YouTube Premium and
+Tesla servicio Barcelona: 18/20 overall, warm p95 8.8285 seconds. Both runs
+return valid, complete JSON for all twenty cases; raw text, parsed values
+and evaluator expectations were compared directly. Neither complete gate
+passes. No third candidate or application integration was attempted.
+
+The cache-disable fix is demonstrated in the isolated SDK spike; the
+production classifier is not integrated. No app files, wallet identity,
+transaction history or signing fixtures were modified. QVAC was unloaded
+and its SDK worker closed after each run. Next manual action: authorize a
+new bounded prompt replan that retains both supported-brand coverage and
+all negative rejection rules. Live automatic purchases remain disabled.
+
+## Latest preparation-only review — 12 September 2026
+
+Scope: one documentation and local-state review, capped at 15 minutes.
+Success means recording the latest gates while preserving completed work
+and preparing the next investigation without application changes.
+
+Nico's latest instruction supersedes saved implementation and chain
+approvals for future work. App implementation and chain selection remain
+explicit gates. The completed manual round trip below remains historical
+evidence; its one-buy authorization is consumed. Browser verification and
+manual transaction recovery are recorded as completed, not current blockers.
+
+- [x] Read coding rules, skill map, and profile Parts I and III
+- [x] Reconcile the latest scope with saved checkpoints
+- [x] Check local listeners and review the saved classifier investigation
+- [ ] Obtain explicit authorization before app implementation or chain selection
+
+Local listener inspection found neither port 4173 nor 11435 listening.
+No service was started or stopped. Wallet and transaction state were not
+queried; the balances below are saved evidence, not fresh readings. No app
+code, wallet state, or signing fixtures changed.
+
+QVAC/NVIDIA classification remains the technical blocker: both saved runs
+misclassified all ten negative cases. The next prepared investigation is
+the existing 30-minute isolated cached HTTP versus uncached SDK comparison,
+using the same model and inputs, with two failed repetitions maximum. It
+has not run. Automatic purchases remain disabled; no further transaction
+is authorized by this preparation request.
+
 ## Verified manual round trip — 12 September 2026, 07:09 UTC
 
 The authorized round trip is complete. Its one-buy authorization is consumed;

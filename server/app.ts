@@ -1,7 +1,7 @@
 import express, { type ErrorRequestHandler } from 'express';
 import { z } from 'zod';
 import { AMOUNT_PATTERN, DEMO_RATE, parseAmount } from './money.js';
-import { BLOCK_REASON, EventConflict, type EventStore } from './store.js';
+import { BLOCK_REASON, EventConflict, SHORTCUT_TOKEN_PREFIX, type EventStore } from './store.js';
 
 export type WalletSnapshot = { address: string; balanceUsdc: string; chainId: 5042002;
   holdings: Array<{ symbol: string; balance: string; address: string }> };
@@ -36,9 +36,38 @@ export function createApp(dependencies: AppDependencies) {
   });
   app.use('/api', (_request, response, next) => { response.setHeader('Cache-Control', 'no-store'); next(); });
   app.get('/api/config', (_request, response) => { response.json({ privyAppId: dependencies.appId }); });
+  const shortcutEndpoint = '/api/notifications/apple-wallet';
+  let shortcutWindow = now();
+  let shortcutCount = 0;
+  app.post(shortcutEndpoint, (request, response, next) => {
+    const match = /^Bearer ([^\s]+)$/.exec(request.headers.authorization ?? '');
+    if (!match || !dependencies.store.acceptsShortcutToken(dependencies.allowedUser, match[1]!)) {
+      response.status(401).json({ error: 'Valid Shortcut intake token required' }); return;
+    }
+    const time = now();
+    if (time - shortcutWindow >= 60_000) { shortcutWindow = time; shortcutCount = 0; }
+    if (++shortcutCount > 30) {
+      response.setHeader('Retry-After', '60');
+      response.status(429).json({ error: 'Shortcut intake limit reached; wait one minute' }); return;
+    }
+    next();
+  }, express.json({ limit: '4kb', strict: true }), (request, response) => {
+    const parsed = eventSchema.safeParse(request.body);
+    if (!parsed.success) { response.status(400).json({ error: 'Invalid purchase notification' }); return; }
+    try {
+      const result = dependencies.store.intake(parsed.data, 'apple_wallet');
+      response.status(result.created ? 202 : 200).json({ id: result.event.id, received: true,
+        purchased: false, status: result.event.status });
+    } catch (error) {
+      if (error instanceof EventConflict) { response.status(409).json({ error: error.message }); return; }
+      throw error;
+    }
+  });
   app.use('/api', async (request, response, next) => {
     const match = /^Bearer ([^\s]+)$/.exec(request.headers.authorization ?? '');
-    if (!match || match[1]!.length > 8192) { response.status(401).json({ error: 'Authentication required' }); return; }
+    if (!match || match[1]!.length > 8192 || match[1]!.startsWith(SHORTCUT_TOKEN_PREFIX)) {
+      response.status(401).json({ error: 'Authentication required' }); return;
+    }
     let user: string;
     try { user = await dependencies.verifyToken(match[1]!); }
     catch { response.status(401).json({ error: 'Invalid or expired access token' }); return; }
@@ -46,6 +75,16 @@ export function createApp(dependencies: AppDependencies) {
     next();
   });
   app.use('/api', express.json({ limit: '4kb', strict: true }));
+  app.get('/api/shortcut', (_request, response) => {
+    response.json({ enabled: dependencies.store.shortcutEnabled(dependencies.allowedUser), endpointPath: shortcutEndpoint });
+  });
+  app.post('/api/shortcut/token', (_request, response) => {
+    response.json({ token: dependencies.store.rotateShortcutToken(dependencies.allowedUser), endpointPath: shortcutEndpoint });
+  });
+  app.post('/api/shortcut/revoke', (_request, response) => {
+    dependencies.store.revokeShortcutToken();
+    response.json({ enabled: false });
+  });
   app.get('/api/status', async (_request, response) => {
     let wallet: WalletSnapshot;
     try {

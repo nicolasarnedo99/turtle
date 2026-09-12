@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { usePrivy } from '@privy-io/react-auth';
+import { Funding } from './Funding';
+import { ShortcutSetup } from './ShortcutSetup';
 
 export type Event = { id: string; merchant: string; amount: string; currency: string; timestamp: string; source: string; status: string; reason: string; principalUsdc: string };
 export type Status = {
@@ -46,18 +48,22 @@ export default function App() {
     if (!response.ok) throw new ApiError(typeof data.error === 'string' ? data.error : 'Request failed. Try again.', response.status);
     return data;
   }, [getAccessToken]);
-  const refresh = useCallback(async () => {
+  const refresh = useCallback(async (requireWallet = false) => {
     const current = session.current;
     const sequence = ++refreshSequence.current;
     setLoading(true);
     try {
       const results = await Promise.allSettled([request('/api/status'), request('/api/events')]);
-      if (current !== session.current || sequence !== refreshSequence.current) return;
+      if (current !== session.current || sequence !== refreshSequence.current) {
+        if (requireWallet) throw new Error('Wallet check was superseded. Check again.');
+        return;
+      }
       const [wallet, activity] = results;
       if (wallet.status === 'fulfilled') setStatus(wallet.value); else setStatus(null);
       if (activity.status === 'fulfilled') setEvents(activity.value.events); else setEvents(null);
       const failed = results.find((result) => result.status === 'rejected');
       setError(failed?.status === 'rejected' ? failed.reason.message : '');
+      if (requireWallet && wallet.status === 'rejected') throw wallet.reason;
     } finally { if (current === session.current && sequence === refreshSequence.current) setLoading(false); }
   }, [request]);
   useEffect(() => {
@@ -116,9 +122,9 @@ export default function App() {
     </header>
     <main>
       <section className="intro"><div><p className="eyebrow">A LITTLE AT A TIME</p><h1>Small steps.<br /><span>Something to grow.</span></h1><p className="intro-copy">A space to explore everyday spending and synthetic stock-price tokens. One careful step at a time.</p></div><div className="turtle-garden"><Turtle large /><span className="sprout sprout-one" /><span className="sprout sprout-two" /><span className="garden-caption">slow &amp; steady</span></div></section>
-      <div className="disclosure">TESTNET DEMO <span>·</span> Synthetic tokens, not backed shares <span>·</span> Simulated purchases</div>
+      <div className="disclosure">TESTNET DEMO <span>·</span> Synthetic tokens, not backed shares <span>·</span> Simulations and card-tap notifications</div>
       {!authenticated ? <section className="login-panel"><div><p className="eyebrow">YOUR PRIVATE DEMO</p><h2>Welcome back.</h2><p>Sign in to see your app-owned wallet, record a simulation, and follow its status.</p><p className="muted">Access is limited to the configured account. Purchases are disabled.</p></div><button className="primary" disabled={!ready} onClick={() => login()}>{ready ? 'Sign in with Privy' : 'Preparing sign in…'}<span aria-hidden="true">↗</span></button></section> : <>
-        <section className="gate" role="status"><span className="gate-icon" aria-hidden="true">Ⅱ</span><div><strong>Purchases are paused</strong><p>QVAC + NVIDIA classification has not passed verification. You can save simulations; no funds move, and nothing will buy later automatically.</p></div><button className="text-button" onClick={() => void pause()}>Confirm pause</button></section>
+        <section className="gate" role="status"><span className="gate-icon" aria-hidden="true">Ⅱ</span><div><strong>Purchases are paused</strong><p>QVAC + NVIDIA classification has not passed verification. You can add test funds and record simulations or card-tap notifications. Token purchases stay off; events will not buy automatically later.</p></div><button className="text-button" onClick={() => void pause()}>Confirm pause</button></section>
         {draftRecoveryError && <div className="error" role="alert">Pending simulation recovery failed. Submission is blocked until its saved identity is recovered.</div>}
         {error && <div className="error" role="alert">{error}</div>}
         {notice && <div className="notice" role="status">{notice}</div>}
@@ -128,6 +134,7 @@ export default function App() {
             {status && <a className="wallet-address" href={`https://testnet.arcscan.app/address/${status.wallet.address}`} target="_blank" rel="noreferrer">{status.wallet.address}<span aria-hidden="true"> ↗</span></a>}
             <div className="limits"><div><span>Daily purchase cap</span><strong>{status?.limits.dailyCapUsdc ?? '5'} test USDC</strong></div><div><span>Minimum reserve + gas</span><strong>{status?.limits.reserveUsdc ?? '1'} test USDC</strong></div></div>
             <p className="fine-print">App-owned wallet. Signing is controlled by the backend.</p>
+            {status && <Funding key={status.wallet.address} wallet={status.wallet} refresh={() => refresh(true)} />}
           </section>
           <section className="simulation-card"><p className="eyebrow">TRY A SIMULATED PURCHASE</p><h2>A small everyday moment.</h2><form onSubmit={(event) => void save(event)}>
             <label htmlFor="merchant">Merchant</label><input id="merchant" value={merchant} onChange={(e) => setMerchant(e.target.value)} placeholder="e.g. Apple Store Madrid" maxLength={160} required disabled={saving || !!pending} />
@@ -137,8 +144,9 @@ export default function App() {
             <p className="save-note">Records an event only. Does not charge a card or buy tokens.</p>
           </form></section>
         </div>
+        <ShortcutSetup key={user?.id} request={request} />
         <section className="activity"><div className="section-title"><div><p className="eyebrow">ONE STEP AT A TIME</p><h2>Your activity</h2></div><span className="count">{events ? `${events.length} events` : 'Unavailable'}</span></div>
-          {events === null ? <p className="muted">Activity unavailable. Refresh to check saved simulations.</p> : events.length === 0 ? <div className="empty"><span className="empty-mark">⌁</span><strong>No simulations yet</strong><p>Your saved events will appear here, with an honest status for every step.</p></div> : <ul className="events">{events.map(event => <li key={event.id}><span className="merchant-icon" aria-hidden="true">{event.merchant.slice(0, 1).toUpperCase()}</span><div className="event-detail"><strong>{event.merchant}</strong><span>{event.amount} {event.currency} · {new Date(event.timestamp).toLocaleString('en-GB', { timeZone: 'Europe/Madrid', dateStyle: 'medium', timeStyle: 'short' })} Madrid</span><p>{event.reason}</p></div><div className="event-status"><span className="status-pill">{event.status === 'needs_retry' ? 'Not purchased' : event.status}</span><span>{event.principalUsdc} test USDC planned</span></div></li>)}</ul>}
+          {events === null ? <p className="muted">Activity unavailable. Refresh to check saved simulations.</p> : events.length === 0 ? <div className="empty"><span className="empty-mark">⌁</span><strong>No events yet</strong><p>Your saved events will appear here, with an honest status for every step.</p></div> : <ul className="events">{events.map(event => <li key={event.id}><span className="merchant-icon" aria-hidden="true">{event.merchant.slice(0, 1).toUpperCase()}</span><div className="event-detail"><strong>{event.merchant}</strong><span>{event.amount} {event.currency} · {event.source === 'apple_wallet' ? 'Apple Wallet Shortcut' : 'Simulation'} · {new Date(event.timestamp).toLocaleString('en-GB', { timeZone: 'Europe/Madrid', dateStyle: 'medium', timeStyle: 'short' })} Madrid</span><p>{event.reason}</p></div><div className="event-status"><span className="status-pill">{event.status === 'needs_retry' ? 'Not purchased' : event.status}</span><span>{event.principalUsdc} test USDC planned</span></div></li>)}</ul>}
           <p className="fine-print">Failed or unprocessed events always need an explicit retry after execution is available.</p>
         </section>
         <section className="holdings"><div className="section-title"><h2>Confirmed holdings</h2><span className="muted">Onchain balances</span></div>{status ? status.wallet.holdings.some(h => !/^0(?:\.0+)?$/.test(h.balance)) ? <ul className="holding-list">{status.wallet.holdings.filter(h => !/^0(?:\.0+)?$/.test(h.balance)).map(h => <li key={h.address}><strong>{h.symbol}</strong><span>{h.balance} synth</span><a href={`https://testnet.arcscan.app/token/${h.address}`} target="_blank" rel="noreferrer">View token ↗</a></li>)}</ul> : <p className="muted">No synthetic tokens held. Saving a simulation does not create a holding.</p> : <p className="muted">Balances unavailable until the wallet refresh succeeds.</p>}</section>

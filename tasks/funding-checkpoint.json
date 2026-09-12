@@ -1,0 +1,36 @@
+{
+  "observedAt": "2026-09-12T08:02:42.262Z",
+  "wallet": {
+    "address": "0xE0025f5afd3FD375e30E8C3679924a499eE926F4",
+    "balanceUsdc": "9.993153889999999688",
+    "chainId": 5042002,
+    "holdings": [
+      {
+        "symbol": "AAPL",
+        "address": "0xB7d0e4FBB6C31997aeBc8070f9BF326Bb0ef859E",
+        "balance": "0"
+      },
+      {
+        "symbol": "GOOGL",
+        "address": "0x22Dd732d8bf020d1Cd6D2ec3342ce43f15a982b1",
+        "balance": "0"
+      },
+      {
+        "symbol": "MSFT",
+        "address": "0x4fb69F9521b84be62da5dEC21E5e93D8e3fE6204",
+        "balance": "0"
+      },
+      {
+        "symbol": "TSLA",
+        "address": "0xf1f19cE22Fb971a61B12F9494D100E72F9C3956E",
+        "balance": "0"
+      },
+      {
+        "symbol": "NVDA",
+        "address": "0x8f9A9ac6F16f4677beB730293C8E75694a458084",
+        "balance": "0"
+      }
+    ]
+  },
+  "transactionSent": false
+}

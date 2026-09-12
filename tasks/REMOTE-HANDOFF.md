@@ -1,5 +1,70 @@
 # Turtle remote preparation, 11 September 2026
 
+## Current priority — funding and Apple Wallet notifications
+
+Nico superseded classification-first ordering and authorized prioritizing
+funding and purchase-notification flows, confirming Apple Wallet Shortcut
+intake. Preserve the existing wallet and completed transaction history.
+Automatic purchases remain disabled. Check listeners before starting any
+service. Current scope and verification are at the top of tasks/todo.md.
+
+Funding and Shortcut intake are implemented and verified: 110 backend
+tests, 11 browser tests, typecheck/build passed. Existing wallet still holds
+9.993153889999999688 test USDC at the 08:02:42 UTC read. Production runs on
+127.0.0.1:4173, PID 1005929; QVAC is stopped. Protected-route rejection and
+wallet/history preservation were checked after the additive storage change.
+No live transaction or production Shortcut token was created. Phone setup,
+actual card fields and delivery need Nico's verification using
+tasks/apple-wallet-setup.md. Automatic purchases remain disabled.
+
+## Current authorization — direct relationships, 12 September 2026
+
+Nico authorized one 30-minute QVAC/NVIDIA investigation, at most two
+candidates, with caching disabled. Clarify direct YouTube/Alphabet and
+Tesla service ownership, preserve the original tests, and add held-out
+paraphrases and unrelated repair/video merchants. Require zero false
+eligible decisions and every original positive correct. No transactions
+or automatic execution. Report results and stop within the budget; see
+the top of tasks/todo.md for the fixed prompts and held-out protocol.
+
+Completed and stopped within budget after two candidates. Both correctly
+classify all ten original positives and eight held-out positives, but A
+has six false eligible decisions and B eighteen. Neither passes. No
+integration or transactions were attempted; SDK workers are closed.
+Evidence and remaining blocker: tasks/qvac-relationships.md.
+
+## Current authorization — classifier diagnosis, 12 September 2026
+
+Nico authorized diagnosing QVAC/NVIDIA classification and, once its gate
+passes, integrating it with existing durable execution and testing offline.
+This supersedes the preparation-only scope below. Preserve the existing Arc
+wallet and transaction history. Automatic live purchases stay disabled until
+offline end-to-end tests pass and Nico separately approves enabling them.
+No new live transactions, unrelated UI work, commits, or pushes. Current
+progress and the bounded investigation are at the top of tasks/todo.md.
+
+Diagnosis checkpoint: stopped after two failed full candidates. Disabling
+the SDK cache fixes the demonstrated cache-path failure but the unchanged
+prompt passes only 18/20. A second explicit rejection prompt passes every
+negative and skips two supported merchants, also 18/20. No integration or
+third candidate was attempted. SDK workers were closed; see
+tasks/qvac-diagnosis.md for raw evidence and the next manual action.
+
+## Current authorization — preparation only, 12 September 2026
+
+Nico's latest instruction restores preparation-only scope. It supersedes
+the saved implementation and chain approvals below for future work. App
+implementation and chain selection require explicit authorization. Preserve
+the existing Arc setup and completed round-trip evidence without treating
+either as permission for another transaction.
+
+The current review covered documentation and local listeners only. Neither
+4173 nor 11435 has a listener. No service was started or stopped, no app code
+changed, and no wallet API, signing, broadcast, or provisioning was invoked.
+QVAC/NVIDIA classification remains blocked by the saved negative-case
+failures. The cached-versus-uncached comparison remains a proposed isolated
+investigation, not an executed third attempt. See the top of tasks/todo.md.
+
 ## Current authorization — 12 September 2026, manual round trip
 
 Completed at 07:09 UTC. Both transactions finalized and the one-buy

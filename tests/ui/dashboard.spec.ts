@@ -18,6 +18,7 @@ test('simulation saves visibly blocked with stable ID after uncertain network re
   await page.route('**/api/**', async route => {
     const path = new URL(route.request().url()).pathname;
     if (path === '/api/config') return route.fulfill({ json: { privyAppId: 'public-test-app' } });
+    if (path === '/api/shortcut') return route.fulfill({ json: { enabled: false, endpointPath: '/api/notifications/apple-wallet' } });
     if (path === '/api/status') return route.fulfill({ json: status });
     if (path === '/api/events' && route.request().method() === 'GET') return route.fulfill({ json: { events: saved } });
     if (path === '/api/events') {
@@ -58,6 +59,7 @@ test('chain failure never appears as a zero balance or enables the simulation fo
   await page.route('**/api/**', route => {
     const path = new URL(route.request().url()).pathname;
     if (path === '/api/config') return route.fulfill({ json: { privyAppId: 'public-test-app' } });
+    if (path === '/api/shortcut') return route.fulfill({ json: { enabled: false, endpointPath: '/api/notifications/apple-wallet' } });
     if (path === '/api/status') return route.fulfill({ status: 503, json: { error: 'Arc wallet state unavailable' } });
     return route.fulfill({ json: { events: [] } });
   });

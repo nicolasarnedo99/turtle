@@ -1,5 +1,16 @@
 # Turtle MVP implementation plan
 
+## Current priority — funding and purchase notifications
+
+On 12 September Nico explicitly superseded classification-first ordering
+and prioritized funding and purchase-notification flows. He confirmed
+Apple Wallet Shortcut intake as the notification source. Implement these
+flows independently of classification while preserving the existing app
+wallet and completed Arc transaction history. Automatic purchases remain
+disabled; the failed classifier and the separate approval to enable live
+execution remain gates. Check service listeners before starting duplicates.
+The current bounded work and verification are at the top of tasks/todo.md.
+
 ## Current authorization — 12 September 2026, manual round trip
 
 Completed at 07:09 UTC. Both transactions finalized and the one-buy

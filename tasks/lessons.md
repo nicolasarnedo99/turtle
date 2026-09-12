@@ -1,4 +1,6 @@
 # Lessons
+- 2026-09-12: Funding and Apple Wallet notification intake can ship independently of the failed classifier when Nico reprioritizes them. Preserve the execution gate while completing receive-funds and durable intake flows; do not use classification as a blocker for unrelated authorized work.
+- 2026-09-12: YouTube Premium is a direct Alphabet-owned service and Tesla service is a direct Tesla match. Rejecting speculative sector links must not reject owned services or treat Spanish servicio as a command. Verify revised prompts on held-out direct-service paraphrases and unrelated repair/video merchants.
 - 2026-09-11: The implementation plan supersedes older chain, ownership, login, and native-app proposals below. Arc testnet AchRWA synthetic tokens are explicitly selected; QVAC and NVIDIA are mandatory. Treat the remote handoff as history.
 - 2026-09-11: Verify the user's intended chain before optimizing execution. Arc is preferred; Hedera is acceptable only with a verified live stock venue. Do not silently substitute mock stocks or Solana.
 - 2026-09-11: Card-event access and native presentation are separate dependencies. Resolve stock availability, wallet control, execution, and payment input before building the app.

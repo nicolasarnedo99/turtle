@@ -1,6 +1,7 @@
 # Turtle
 
-Turtle is a private Arc testnet demo that records simulated purchases and
+Turtle is a private Arc testnet demo that records simulations and Apple Wallet
+Shortcut notifications and
 shows an app-owned wallet and synthetic-token holdings. **Automatic purchases are
 disabled.** QVAC loads the selected NVIDIA model, but its merchant classifier
 failed the negative-case evaluation. Saving an event records `needs_retry`;
@@ -9,7 +10,8 @@ it neither charges a card nor queues a future purchase.
 The app currently includes Privy login with a server-enforced user allowlist,
 SQLite event storage, duplicate-ID handling, fixed-point allocation math,
 read-only wallet balances, a pause control, and a responsive interface.
-Unknown users cannot read or submit events. Neither retries nor unpausing can
+Only the allowed account can read activity or manage a scoped Shortcut token.
+The token can submit notifications only. Neither retries nor unpausing can
 bypass the classifier block. The app server has no signing or broadcast path. A separate manual CLI
 implements the explicitly authorized, one-time Apple buy/redemption check.
 
@@ -61,6 +63,52 @@ unit-tested calculation functions. The separate manual execution engine persists
 transaction attempts in `data/execution.sqlite`; simulation events never
 enter that engine. Restart marks unsigned unfinished events `needs_retry`.
 No delayed buys run on startup or after errors.
+
+## Fund the existing wallet
+
+After login, **Add test USDC** shows the existing Arc wallet's full receive
+address and a copy action. Use the linked Circle faucet with Arc Testnet and
+USDC, or transfer test USDC from your own Arc testnet wallet. Do not use real
+funds or another network. No new wallet is created and Turtle does not send
+the funding transaction. Check incoming funds to read the balance again;
+the panel shows its opening balance and the latest observed balance. A
+balance increase is not verification of one particular deposit. The wallet
+explorer link lets you inspect incoming transactions. A failed read shows
+an error, never a funding confirmation.
+
+The network and faucet are listed in [Arc's RPC reference](https://docs.arc.io/arc/references/rpc-endpoints).
+Funding does not enable token purchases.
+
+## Apple Wallet Shortcut intake
+
+Sign in and use **Connect a card-tap Shortcut** to create an intake token.
+The Authorization header is shown once in that browser session and is not
+saved in browser storage. Only its SHA-256 hash is stored server-side,
+bound to the configured Privy user. Replacing it invalidates the previous
+token; revoking access preserves received notifications. If creation times
+out, check setup state after reloading and replace a token you did not receive.
+
+`POST /api/notifications/apple-wallet` accepts that scoped bearer token and
+the same five fields as simulation intake. Source is assigned as
+`apple_wallet`; clients cannot supply source, wallet, card identifiers or
+extra fields. The token cannot read wallet/activity, submit simulations,
+manage tokens, retry purchases or change pause state. Notifications have a
+separate additive table so the original simulation table and historical
+records remain intact. Both sources appear in receipt order in activity.
+Stable IDs are protected across both sources: same payload/source returns
+the existing receipt, and changed payload or source returns 409.
+
+A new durable receipt returns 202; an identical retry returns 200. The
+response is `{id, received: true, purchased: false, status: "needs_retry"}`.
+Neither response proves bank settlement. No notification enters execution
+or becomes a delayed buy. Intake allows 30 authenticated requests per minute
+and a 4 kB JSON body; the rate window resets on server restart. Token hashes
+and notification receipts persist across restart.
+
+Follow [the phone setup and verification steps](tasks/apple-wallet-setup.md).
+The server stays on loopback; the iPhone needs its own working SSH forward
+or another already configured private route to Turtle. Actual fields from
+Nico's card and a real phone-to-server notification remain unverified.
 
 ## Verification
 
