@@ -5,10 +5,16 @@ import { BLOCK_REASON, EventConflict, type EventStore } from './store.js';
 
 export type WalletSnapshot = { address: string; balanceUsdc: string; chainId: 5042002;
   holdings: Array<{ symbol: string; balance: string; address: string }> };
+export type AuthenticatedAccessEvidence = {
+  observedAt: string; method: 'GET'; path: '/api/status'; responseStatus: 200;
+  walletAddress: string; chainId: 5042002; pinnedUserMatched: true;
+  apiAccessVerified: true; browserUiVerified: false;
+};
 export type AppDependencies = {
   appId: string; allowedUser: string; store: EventStore;
   verifyToken: (token: string) => Promise<string>;
   readWallet: () => Promise<WalletSnapshot>;
+  recordAuthenticatedAccess?: (evidence: AuthenticatedAccessEvidence) => void;
   now?: () => number;
 };
 
@@ -21,6 +27,7 @@ const eventSchema = z.strictObject({
 export function createApp(dependencies: AppDependencies) {
   if (!dependencies.appId || !/^did:privy:[a-zA-Z0-9]+$/.test(dependencies.allowedUser)) throw new Error('Invalid authentication configuration');
   const app = express();
+  const now = dependencies.now ?? Date.now;
   app.disable('x-powered-by');
   app.use((_request, response, next) => {
     response.setHeader('X-Content-Type-Options', 'nosniff');
@@ -40,14 +47,18 @@ export function createApp(dependencies: AppDependencies) {
   });
   app.use('/api', express.json({ limit: '4kb', strict: true }));
   app.get('/api/status', async (_request, response) => {
+    let wallet: WalletSnapshot;
     try {
-      response.json({ wallet: await dependencies.readWallet(),
-        execution: { enabled: false, paused: true, reason: BLOCK_REASON },
-        limits: { dailyCapUsdc: '5', reserveUsdc: '1' }, eurUsdRate: DEMO_RATE });
-    } catch { response.status(503).json({ error: 'Arc wallet state unavailable; retry the read later' }); }
+      wallet = await dependencies.readWallet();
+    } catch { response.status(503).json({ error: 'Arc wallet state unavailable; retry the read later' }); return; }
+    dependencies.recordAuthenticatedAccess?.({ observedAt: new Date(now()).toISOString(),
+      method: 'GET', path: '/api/status', responseStatus: 200,
+      walletAddress: wallet.address, chainId: wallet.chainId, pinnedUserMatched: true,
+      apiAccessVerified: true, browserUiVerified: false });
+    response.json({ wallet, execution: { enabled: false, paused: true, reason: BLOCK_REASON },
+      limits: { dailyCapUsdc: '5', reserveUsdc: '1' }, eurUsdRate: DEMO_RATE });
   });
   app.get('/api/events', (_request, response) => { response.json({ events: dependencies.store.list() }); });
-  const now = dependencies.now ?? Date.now;
   let intakeWindow = now();
   let intakeCount = 0;
   app.post('/api/events', (request, response) => {

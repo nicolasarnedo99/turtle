@@ -1,5 +1,20 @@
 # Turtle MVP implementation plan
 
+## Current authorization — 12 September 2026, manual round trip
+
+Completed at 07:09 UTC. Both transactions finalized and the one-buy
+authorization is consumed. See tasks/manual-roundtrip.json and the top of
+tasks/todo.md for hashes, balance changes, recovery details, and checks.
+Automatic purchases remain disabled. QVAC diagnosis has not resumed.
+
+Nico explicitly authorized authenticated browser verification, the live
+transaction engine, and one 0.10 test USDC buy followed by redemption of the
+resulting synthetic tokens on the existing Arc setup. This supersedes the
+intervening preparation-only scope. Enforce policy, reserve, receipts, and
+durable tracking. Keep automatic purchases disabled while classification
+is blocked. No duplicate workers, blind retries, commits, or pushes.
+Checkpoint before returning to QVAC diagnosis. See tasks/todo.md.
+
 Status: implementation approved in the interactive session; resumed after a requested safe pause. Updated 11 September 2026. This plan supersedes earlier Solana/Jupiter, user-owned wallet, and native iOS proposals. The original Ideaverse idea note remains unchanged. Older remote handoff notes may contain superseded decisions.
 
 ## Current execution scope

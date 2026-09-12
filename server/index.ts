@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, readFileSync } from 'node:fs';
+import { closeSync, existsSync, fsyncSync, mkdirSync, openSync, readFileSync, renameSync, writeFileSync } from 'node:fs';
 import { loadEnvFile } from 'node:process';
 import { fileURLToPath } from 'node:url';
 import { resolve } from 'node:path';
@@ -29,6 +29,16 @@ try {
   const store = new EventStore(resolve(root, 'data/turtle.sqlite'));
   const privy = new PrivyClient({ appId, appSecret });
   const app = createApp({ appId, allowedUser, store, readWallet: walletReader(address),
+    recordAuthenticatedAccess: evidence => {
+      const target = resolve(root, 'data/browser-verification.json');
+      const temporary = `${target}.tmp`;
+      writeFileSync(temporary, JSON.stringify(evidence, null, 2) + '\n', { mode: 0o600 });
+      const file = openSync(temporary, 'r');
+      try { fsyncSync(file); } finally { closeSync(file); }
+      renameSync(temporary, target);
+      const directory = openSync(resolve(root, 'data'), 'r');
+      try { fsyncSync(directory); } finally { closeSync(directory); }
+    },
     verifyToken: async token => (await privy.utils().auth().verifyAccessToken(token)).user_id });
   const dist = resolve(root, 'dist');
   app.use(express.static(dist, { dotfiles: 'deny' }));

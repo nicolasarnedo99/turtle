@@ -1,4 +1,111 @@
 # Turtle preparation
+
+## Verified manual round trip — 12 September 2026, 07:09 UTC
+
+The authorized round trip is complete. Its one-buy authorization is consumed;
+no further buy or redemption is pending. Automatic purchases remain disabled.
+Nico confirmed real browser login; the server independently verified the
+pinned Privy user and successful authenticated wallet API access. Browser
+appearance was not inspected through Nico's session.
+
+Bought Apple pair 1 with 0.10 test USDC, nonce 0, finalized block 61694020:
+`0xa49d1bf52aafa0a6fe750f65d64f984e0e49f83cffc16be02d4e0fd559103f20`.
+Minted exactly 300057182411893 synth units, or 0.000300057182411893 tokens.
+Native balance changed from 10 to 9.896733088 test USDC, including gas.
+
+Redeemed that exact minted amount, nonce 1, finalized block 61694270:
+`0x4d38d417cb4e8f3155804dddee3eebc8ae459a21030e29f6bbf99525486abd79`.
+Received 0.099400899999999688 test USDC before redemption gas. Final native
+balance is 9.993153889999999688; synth balance returned to zero. Total native
+cost was 0.006846110000000312 test USDC, including both fees, gas and rounding.
+The 1 test-USDC reserve held throughout. Gross daily buy principal remains
+0.10 test USDC; redemption does not restore that allowance.
+
+Redemption signature validation initially stopped before broadcast because
+viem represents an RLP zero value as undefined. A failing regression proved
+the issue; normalizing numeric zero fixed it without weakening any other
+field check. Recovery revalidated live policy, nonce, original minimum, gas,
+venue and reserve, then broadcast the original saved bytes once. No second
+signature, changed nonce, changed fees, or changed minimum was used. Each
+transaction needed one read-only reconciliation after its initial receipt
+check. Both receipts, vault events, mint/burn events, finalized blocks, and
+historical native/synth deltas were verified.
+
+Current evidence is in tasks/manual-roundtrip.json. Private bytes remain in
+data/execution.sqlite; never-broadcast spike fixtures were untouched. A fresh
+read at 07:09:32 UTC found latest/pending nonce 2, zero synths, unchanged live
+policy, and the final native balance above. SQLite contains exactly two
+confirmed attempts and no execution lock. The shared file lock is absent.
+One application listener remains on 127.0.0.1:4173, PID 995101; no QVAC listener
+or funded execution worker remains.
+
+Verification: 85 backend tests, 3 browser tests, TypeScript and production
+build passed. The browser suite uses its existing isolated auth stub; the
+real login proof is Nico's confirmation plus production API verification.
+The production build retains its existing dependency chunk-size warning.
+No commits or pushes were made. QVAC diagnosis has not resumed.
+
+Remaining gate: mandatory QVAC/NVIDIA classification still fails negative
+cases. The manual engine is isolated from simulated events; no event is
+queued for delayed execution. Classification integration and submission
+materials remain future work. Checkpoint complete before QVAC diagnosis.
+
+## Current authorized execution — 12 September 2026
+
+Nico explicitly authorized browser verification, a durable manual engine,
+and one 0.10 test USDC buy and redemption on the existing Arc setup. This
+supersedes the preparation-only checkpoint below. Automatic purchases remain
+disabled. Use Apple pair 1, the previously policy-tested positive fixture's
+asset; never broadcast that fixture. Preserve the existing wallet.
+
+Scope budget: 60 minutes for the engine and adapter, 20 minutes for browser
+evidence, then one reviewed round trip and checkpoint. Stop on uncertain
+transaction state; no blind retries or duplicate workers. Read-only receipt
+checks are bounded to 12 checks per transaction at five-second intervals.
+
+- [x] Verify current code, wallet policy, balance, nonce, and venue state
+- [x] Verify the real authenticated browser session
+- [x] Implement and test durable manual execution and recovery
+- [x] Execute one 0.10 test USDC buy and redeem its exact output
+- [x] Record hashes, verified balance changes, and remaining gates
+
+
+## Current preparation checkpoint — 12 September 2026
+
+Scope: one documentation and local-state review, capped at 15 minutes.
+Success means the current gates are explicit, prior evidence is preserved,
+and the next feasibility investigation is concrete without app changes.
+Nico's latest preparation-only instruction supersedes historical approvals
+below. App implementation and chain selection require explicit authorization.
+No signing, broadcasting, provisioning, or application restart is in scope.
+
+- [x] Read coding rules, skill map, and profile Parts I and III
+- [x] Review saved handoffs and reconcile current authorization
+- [x] Check local service listeners and prepare the next investigation
+- [ ] Resolve the app implementation and chain selection gates
+
+Local inspection found no listeners on ports 4173 or 11435. The earlier
+running-server checkpoint is historical. Wallet balances and transaction
+state were not queried again; the last saved check is not a fresh balance.
+
+The saved QVAC evaluations failed all ten negative cases on both attempts.
+The next proposed feasibility investigation is a 30-minute isolated spike:
+inspect the installed SDK's cache controls, compare identical inputs through
+cached HTTP and uncached SDK execution with the same pinned NVIDIA model,
+and change only the cache path. Start with a known positive, an unknown
+merchant, and a prompt injection. Only if that discriminates the hypothesis,
+repeat the unchanged 20-case acceptance set and record cold load, warm p95,
+and memory. Stop after two failed repetitions; no deterministic substitute
+or wallet access. This is a prepared replan, not an executed third attempt.
+
+Saved remaining blockers are real authenticated browser login, durable
+transaction reservations and recovery, and a verified buy/redeem round trip.
+Those app and execution steps remain gated. Existing wallet state and
+never-broadcast signing fixtures must be preserved. No app files changed,
+no services started, and no transactions were signed or broadcast here.
+
+## Historical checkpoints
+
 - [x] Review the plan and current API documentation
 - [x] Install Codex CLI on morty
 - [x] Clone Turtle on morty

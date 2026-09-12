@@ -1,0 +1,137 @@
+{
+  "observedAt": "2026-09-12T07:09:32.693Z",
+  "chainId": 5042002,
+  "wallet": "0xE0025f5afd3FD375e30E8C3679924a499eE926F4",
+  "browserVerification": {
+    "userConfirmedLogin": true,
+    "apiEvidence": {
+      "observedAt": "2026-09-12T07:09:54.291Z",
+      "method": "GET",
+      "path": "/api/status",
+      "responseStatus": 200,
+      "walletAddress": "0xE0025f5afd3FD375e30E8C3679924a499eE926F4",
+      "chainId": 5042002,
+      "pinnedUserMatched": true,
+      "apiAccessVerified": true,
+      "browserUiVerified": false
+    }
+  },
+  "automaticPurchasesEnabled": false,
+  "attempts": [
+    {
+      "id": "authorized-2026-09-12-apple-buy-0.10-v1",
+      "kind": "buy",
+      "amount": "100000000000000000",
+      "status": "confirmed",
+      "hash": "0xa49d1bf52aafa0a6fe750f65d64f984e0e49f83cffc16be02d4e0fd559103f20",
+      "nonce": 0,
+      "maximumGasNative": "4809454000000000",
+      "outputAmount": "300057182411893",
+      "evidence": {
+        "hash": "0xa49d1bf52aafa0a6fe750f65d64f984e0e49f83cffc16be02d4e0fd559103f20",
+        "blockNumber": "61694020",
+        "blockHash": "0xaabdf3491de2b57ca8738dada46e3afc63891caf80f77d832e6c9479b222d6bf",
+        "before": {
+          "blockNumber": "61694019",
+          "blockHash": "0xe21d26346a48f786ce7cab83b2762584c849d205418925ffb746136cb0a08c85",
+          "native": "10000000000000000000",
+          "synth": "0",
+          "nonce": 0
+        },
+        "after": {
+          "blockNumber": "61694020",
+          "blockHash": "0xaabdf3491de2b57ca8738dada46e3afc63891caf80f77d832e6c9479b222d6bf",
+          "native": "9896733088000000000",
+          "synth": "300057182411893",
+          "nonce": 1
+        },
+        "gasCost": "3266912000000000",
+        "gasUsed": "148496",
+        "effectiveGasPrice": "22000000000",
+        "event": {
+          "pairId": "1",
+          "buyer": "0xE0025f5afd3FD375e30E8C3679924a499eE926F4",
+          "symbol": "AAPL",
+          "usdcIn": "100000000000000000",
+          "fee": "300000000000000",
+          "reserveAdded": "99700000000000000",
+          "synthMinted": "300057182411893",
+          "price": "332270000000000000000",
+          "timestamp": "1789196745"
+        },
+        "nativeDelta": "-103266912000000000",
+        "synthDelta": "300057182411893",
+        "reserveVerified": true
+      }
+    },
+    {
+      "id": "authorized-2026-09-12-apple-redeem-v1",
+      "kind": "redeem",
+      "amount": "300057182411893",
+      "status": "confirmed",
+      "hash": "0x4d38d417cb4e8f3155804dddee3eebc8ae459a21030e29f6bbf99525486abd79",
+      "nonce": 1,
+      "maximumGasNative": "4559568000000000",
+      "outputAmount": "99400899999999688",
+      "evidence": {
+        "hash": "0x4d38d417cb4e8f3155804dddee3eebc8ae459a21030e29f6bbf99525486abd79",
+        "blockNumber": "61694270",
+        "blockHash": "0xceec925b7176fd0b5118fc7c225a771f9657571b8d5f9b893e6a2bf09dd7dbbc",
+        "before": {
+          "blockNumber": "61694269",
+          "blockHash": "0xeed39329e4505d7ae9e1824cf6d4969d0707bca3b9fe212cb152a7d632bf0a86",
+          "native": "9896733088000000000",
+          "synth": "300057182411893",
+          "nonce": 1
+        },
+        "after": {
+          "blockNumber": "61694270",
+          "blockHash": "0xceec925b7176fd0b5118fc7c225a771f9657571b8d5f9b893e6a2bf09dd7dbbc",
+          "native": "9993153889999999688",
+          "synth": "0",
+          "nonce": 2
+        },
+        "gasCost": "2980098000000000",
+        "gasUsed": "135459",
+        "effectiveGasPrice": "22000000000",
+        "event": {
+          "pairId": "1",
+          "redeemer": "0xE0025f5afd3FD375e30E8C3679924a499eE926F4",
+          "symbol": "AAPL",
+          "synthBurned": "300057182411893",
+          "grossUsdc": "99699999999999687",
+          "fee": "299099999999999",
+          "usdcOut": "99400899999999688",
+          "price": "332270000000000000000",
+          "timestamp": "1789196927"
+        },
+        "nativeDelta": "96420801999999688",
+        "synthDelta": "-300057182411893",
+        "reserveVerified": true
+      }
+    }
+  ],
+  "finalState": {
+    "blockNumber": "61694319",
+    "native": "9993153889999999688",
+    "synth": "0",
+    "latestNonce": 2,
+    "pendingNonce": 2,
+    "policyVerified": true
+  },
+  "totals": {
+    "nativeBefore": "10000000000000000000",
+    "nativeAfter": "9993153889999999688",
+    "nativeChange": "-6846110000000312",
+    "gas": "6247010000000000",
+    "vaultFees": "599099999999999"
+  },
+  "recovery": "Redemption zero-value decoding was fixed before broadcast. Original signed bytes and hash were preserved; no second signature or changed transaction was requested.",
+  "verification": {
+    "backendTests": 85,
+    "browserTests": 3,
+    "typecheck": "passed",
+    "productionBuild": "passed",
+    "qvacDiagnosisResumed": false
+  }
+}

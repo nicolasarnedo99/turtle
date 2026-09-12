@@ -5,7 +5,7 @@ import { join } from 'node:path';
 import { once } from 'node:events';
 import type { Server } from 'node:http';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import { createApp } from '../../server/app.js';
+import { createApp, type AuthenticatedAccessEvidence } from '../../server/app.js';
 import { BLOCK_REASON, EventStore } from '../../server/store.js';
 
 describe('authenticated disabled execution API', () => {
@@ -15,6 +15,8 @@ describe('authenticated disabled execution API', () => {
   let directory: string;
   let chainFails: boolean;
   let time: number;
+  let evidence: AuthenticatedAccessEvidence[];
+  let evidenceFails: boolean;
   const event = () => ({ id: randomUUID(), merchant: 'Apple', amount: '5.00', currency: 'USD', timestamp: '2026-09-12T10:00:00Z' });
   const request = (path: string, body?: unknown, token = 'allowed') => fetch(`${base}${path}`, {
     method: body === undefined ? 'GET' : 'POST',
@@ -26,8 +28,14 @@ describe('authenticated disabled execution API', () => {
     store = new EventStore(join(directory, 'events.sqlite'));
     chainFails = false;
     time = 0;
+    evidence = [];
+    evidenceFails = false;
     const app = createApp({ appId: 'public-app', allowedUser: 'did:privy:allowed', store, now: () => time,
       verifyToken: async token => { if (token === 'invalid') throw new Error('private detail'); return `did:privy:${token}`; },
+      recordAuthenticatedAccess: entry => {
+        if (evidenceFails) throw new Error('private storage detail');
+        evidence.push(entry);
+      },
       readWallet: async () => {
         if (chainFails) throw new Error('private RPC detail');
         return { address: '0x123', balanceUsdc: '10', chainId: 5042002, holdings: [] };
@@ -87,6 +95,26 @@ describe('authenticated disabled execution API', () => {
     const response = await request('/api/status');
     expect(response.status).toBe(503);
     expect(await response.json()).toEqual({ error: 'Arc wallet state unavailable; retry the read later' });
+    expect(evidence).toEqual([]);
+  });
+  it('records only successful pinned-user API access without tokens or user identifiers', async () => {
+    expect((await fetch(`${base}/api/status`)).status).toBe(401);
+    expect((await request('/api/status', undefined, 'invalid')).status).toBe(401);
+    expect((await request('/api/status', undefined, 'other')).status).toBe(403);
+    await request('/api/events');
+    expect(evidence).toEqual([]);
+    expect((await request('/api/status')).status).toBe(200);
+    expect(evidence).toEqual([{ observedAt: '1970-01-01T00:00:00.000Z',
+      method: 'GET', path: '/api/status', responseStatus: 200,
+      walletAddress: '0x123', chainId: 5042002, pinnedUserMatched: true,
+      apiAccessVerified: true, browserUiVerified: false }]);
+  });
+  it('surfaces evidence storage failure instead of claiming verification succeeded', async () => {
+    evidenceFails = true;
+    const response = await request('/api/status');
+    expect(response.status).toBe(500);
+    expect(await response.json()).toEqual({ error: 'Request failed; no purchase was attempted' });
+    expect(evidence).toEqual([]);
   });
   it('bounds authenticated intake and resumes after a minute', async () => {
     const input = event();
